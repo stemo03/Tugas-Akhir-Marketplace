@@ -65,7 +65,7 @@
                 <h6 class="text-uppercase font-weight-bold">Contact Us</h6>
                   <hr class="bg-success mb-2 mt-0 d-inline-block mx-auto" style="width: 125px; height: 2px;">
                   <ul class="list-unstyled">
-                    <li class="my-2"><i class="fas fa-home mr-2"></i>Jl. Mandolin No.17a,Titi Rantai, Kec. Medan Baru, Kota Medan</li>
+                    <li class="my-2"><i class="fas fa-home mr-2"></i>Titi Rantai, Kec. Medan Baru, Kota Medan</li>
                     <li class="my-2"><i class="fas fa-envelope mr-2"></i>farmersmarketplace@gmail.com</li>
                     <li class="my-2"><i class="fas fa-fax mr-2"></i>+(623) 87535</li>
                     <li class="my-2"><i class="fas fa-phone mr-2"></i>+62 82233445566</li>
