@@ -29,6 +29,9 @@
                     <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
                     <a href="/categories.html" class="nav-link"
                         >Categories</a
                     >
@@ -52,14 +55,14 @@
                             alt="User Picture"
                             class="rounded-circle mr-2 profile-picture"
                         />
-                        Hi, Sujadi</a
+                       {{ Auth::user()->name }}</a
                     >
                     <div class="dropdown-menu">
-                        <a href="/dashboard.html" class="dropdown-item">
+                        <a href="{{ route('dashboard') }}" class="dropdown-item">
                             Dashboard</a
                         >
                         <a
-                            href="/dashboard-account.html"
+                            href="{{ route('update') }}"
                             class="dropdown-item"
                         >
                             Setting</a

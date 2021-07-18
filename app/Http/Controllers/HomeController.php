@@ -25,5 +25,7 @@ class HomeController extends Controller
             'categories' => $categories,
             'products' => $products
         ]);
+        
     }
+     
 }
