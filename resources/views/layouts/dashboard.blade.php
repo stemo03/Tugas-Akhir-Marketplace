@@ -152,6 +152,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('cart') }}" class="nav-link d-inline-block">
                             Cart
                         </a>

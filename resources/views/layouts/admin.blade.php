@@ -119,7 +119,7 @@
                                 <ul class="navbar-nav d-none d-lg-flex ml-auto">
                                     <li class="nav-item dropdown">
                                         <a
-                                            href="#"
+                                            href=""
                                             class="nav-link"
                                             id="navbarDropdown"
                                             role="button"
@@ -134,7 +134,7 @@
                                                     profile-picture
                                                 "
                                             />
-                                            Hi, Admin</a
+                                            Hi, Admin {{ Auth::user()->name }}</a
                                         >
                                         <div class="dropdown-menu">
                                             <a href="/" class="dropdown-item"
@@ -148,12 +148,12 @@
                                 <ul class="navbar-nav d-block d-lg-none">
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            Hi, {{ Auth::user()->name }}
+                                            Hi, Admin {{ Auth::user()->name }}
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a
-                                            href="#"
+                                            href="{{ route('cart') }}"
                                             class="nav-link d-md-inline-block"
                                         >
                                             Cart
