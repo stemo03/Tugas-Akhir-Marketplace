@@ -32,7 +32,7 @@
                     <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/categories.html" class="nav-link"
+                    <a href="{{ route('categories') }}" class="nav-link"
                         >Categories</a
                     >
                 </li>
@@ -72,7 +72,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link d-inline-block mt-2">
+                    <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
                         <img
                             src="/images/shoppingCart.svg"
                             alt="Empty Cart"
