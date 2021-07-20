@@ -47,6 +47,9 @@
                                 <div class="product-category">
                                     {{ $product->category->name }}
                                 </div>
+                                <div class="product-category">
+                                    {{ $product->price }}
+                                </div>
                             </div>
                         </a>
                     </div>

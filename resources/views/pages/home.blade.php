@@ -93,7 +93,7 @@
                                 <img
                                 src="{{  Storage::url($category->photo) }}"
                                 alt=""
-                                class="w-100"
+                                class="w-100 h-100"
                                 />
                             </div>
                             <p class="categories-text">
@@ -150,7 +150,7 @@
                               {{  $product->name }}
                           </div>
                           <div class="products-price">
-                              Rp{{ $product->price }}
+                          Rp {{ number_format($product->price) }}
                           </div>
                         </a>
                   </div>

@@ -13,7 +13,7 @@
 >
     <div class="container-fluid">
         <div class="dashboard-heading">
-            <h2 class="dashboard-title"> product</h2>
+            <h2 class="dashboard-title"> Product</h2>
             <p class="dashboard-subtitle">
               List of product
             </p>
