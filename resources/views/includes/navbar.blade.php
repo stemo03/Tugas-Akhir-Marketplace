@@ -41,7 +41,7 @@
                 </li>
                 <li class="nav-item">
                     <a
-                    href="{{  route('login') }}"
+                    href="{{ route('login') }}"
                     class="btn btn-success nav-link px-4 text-white"
                     >Sign In</a
                     >
