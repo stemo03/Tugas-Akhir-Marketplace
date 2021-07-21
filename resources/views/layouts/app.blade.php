@@ -26,7 +26,7 @@
     @yield('content')
     <div class="container"> 
                 
-               
+                
 
     <!-- Footer -->
     @include('includes.footer')

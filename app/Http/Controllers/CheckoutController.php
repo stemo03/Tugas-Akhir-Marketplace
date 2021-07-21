@@ -80,6 +80,7 @@ class CheckoutController extends Controller
                 'shopeepay','bank_transfer'),
             'vtweb' => array()
         );
+
         
         try {
         // Get Snap Payment Page URL
@@ -90,9 +91,9 @@ class CheckoutController extends Controller
         catch (Exception $e) {
             echo $e->getMessage();
         }
-
-        
+       
     }
+    
 
      public function callback(Request $request)
     {
@@ -118,75 +119,34 @@ class CheckoutController extends Controller
         if ($status == 'capture') {
             if ($type == 'credit_card'){
                 if($fraud == 'challenge'){
-                    $transaction->transaction_status = 'PENDING';
+                    $transaction->status = 'PENDING';
                 }
                 else {
-                    $transaction->transaction_status = 'SUCCESS';
+                    $transaction->status = 'SUCCESS';
                 }
             }
         }
         else if ($status == 'settlement'){
-            $transaction->transaction_status = 'SUCCESS';
+            $transaction->status = 'SUCCESS';
         }
         else if($status == 'pending'){
-            $transaction->transaction_status = 'PENDING';
+            $transaction->status = 'PENDING';
         }
         else if ($status == 'deny') {
-            $transaction->transaction_status = 'CANCELLED';
+            $transaction->status = 'CANCELLED';
         }
         else if ($status == 'expire') {
-            $transaction->transaction_status = 'CANCELLED';
+            $transaction->status = 'CANCELLED';
         }
         else if ($status == 'cancel') {
-            $transaction->transaction_status = 'CANCELLED';
+            $transaction->status = 'CANCELLED';
         }
         else if ($status == 'failure') {
-            $transaction->transaction_status = 'CANCELLED';
+            $transaction->status = 'CANCELLED';
         }
 
         // Simpan transaksi
         $transaction->save();
 
-        // Kirimkan email
-        if ($transaction)
-        {
-            if($status == 'capture' && $fraud == 'accept' )
-            {
-                //
-            }
-            else if ($status == 'settlement')
-            {
-                //
-            }
-            else if ($status == 'success')
-            {
-                //
-            }
-            else if($status == 'capture' && $fraud == 'challenge' )
-            {
-                return response()->json([
-                    'meta' => [
-                        'code' => 200,
-                        'message' => 'Midtrans Payment Challenge'
-                    ]
-                ]);
-            }
-            else
-            {
-                return response()->json([
-                    'meta' => [
-                        'code' => 200,
-                        'message' => 'Midtrans Payment not Settlement'
-                    ]
-                ]);
-            }
-
-            return response()->json([
-                'meta' => [
-                    'code' => 200,
-                    'message' => 'Midtrans Notification Success'
-                ]
-            ]);
-        }
     }
 }

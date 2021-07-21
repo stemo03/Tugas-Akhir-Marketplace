@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Province;
+use App\Models\Regency;
+use App\Models\User;
+
 use Illuminate\Support\Facades\Auth;
 class DashboardSettingController extends Controller
 {
@@ -26,9 +30,13 @@ class DashboardSettingController extends Controller
     public function account()
     {
         $user = Auth::user();
+        $province = Province::with(['province']);
+        $regencies = Regency::with(['regencies']);
 
         return view('pages.dashboard-account',[
-            'user' => $user
+            'user' => $user,
+            'province'=>$province,
+            'regencies'=>$regencies
         ]);
     }
 

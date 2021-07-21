@@ -38,7 +38,7 @@ data-aos="fade-up"
                 Revenue
             </div>
             <div class="dashboard-card-subtitle">
-               Rp ${{ number_format($revenue) }}
+               Rp {{ number_format($revenue) }}
             </div>
             </div>
         </div>

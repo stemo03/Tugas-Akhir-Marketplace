@@ -42,7 +42,7 @@ data-aos="fade-up"
                                 <div class="col-md-6">
                                     <div
                                         class="form-group">
-                                        <label for="email">Your Email</label >
+                                        <label for="email">Email</label >
                                         <input
                                             type="email"
                                             class="form-control"
@@ -55,7 +55,7 @@ data-aos="fade-up"
                                 <div class="col-md-6">
                                     <div
                                         class="form-group">
-                                        <label for="address_one">Address1</label>
+                                        <label for="address_one">Alamat</label>
                                         <input
                                             type="text"
                                             class="form-control"
@@ -69,13 +69,43 @@ data-aos="fade-up"
                                     <div
                                         class="form-group"
                                     >
-                                        <label for="address_two">Address 2</label>
+                                        <label for="address_two">Kecamatan</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                             id="address_two"
                                             name="address_two"
                                             value="{{ $user->address_two }}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        class="form-group"
+                                    >
+                                        <label for="provinces_id">Provinsi Saat ini</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="provinces_id"
+                                            name="provinces_id"
+                                            value="{{ $user->province->name }}"
+                                            disabled
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        class="form-group"
+                                    >
+                                        <label for="regencies_id">Kota Saat ini</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="regencies_id"
+                                            name="regencies_id"
+                                            value="{{ $user->regencies->name }}"
+                                            disabled
                                         />
                                     </div>
                                 </div>
