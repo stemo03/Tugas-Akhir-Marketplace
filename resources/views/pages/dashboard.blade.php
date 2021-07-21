@@ -59,6 +59,22 @@ data-aos="fade-up"
     <div class="row mt-3">
         <div class="col-12 mt-2">
             <h5 class="mb-3">Recent Transactions</h5>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    Produk
+                </div>
+                 <div class="col-md-2">
+                    Kode transaksi
+                </div>
+                <div class="col-md-3">
+                    Customer
+                </div>
+                <div class="col-md-3">
+                Tanggal Transaksi
+                </div>
+            </div>
             @foreach ($transaction_data as $transaction)
               <a
                 href="{{ route('dashboard-transaction-details', $transaction->id) }}"
@@ -72,8 +88,11 @@ data-aos="fade-up"
                                 class="w-75"
                             />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                                 {{ $transaction->product->name ?? '' }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ $transaction->transaction->code ?? '' }}
                             </div>
                             <div class="col-md-3">
                                 {{ $transaction->transaction->user->name ?? '' }}
