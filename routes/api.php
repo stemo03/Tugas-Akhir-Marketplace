@@ -27,3 +27,6 @@ Route::get('provinces', [App\Http\Controllers\API\LocationController::class,'pro
     ->name('api-provinces');
 Route::get('regencies/{provinces_id}', [App\Http\Controllers\API\LocationController::class,'regencies'])
     ->name('api-regencies');
+
+Route::post('/checkout/callback', [App\Http\Controllers\CheckoutController::class, 'callback'])
+    ->name('midtrans-callback');

@@ -95,7 +95,7 @@ class CheckoutController extends Controller
     }
     
 
-     public function callback(Request $request)
+    public function callback(Request $request)
     {
         // Set konfigurasi midtrans
         Config::$serverKey = config('services.midtrans.serverKey');
@@ -106,47 +106,55 @@ class CheckoutController extends Controller
         // Buat instance midtrans notification
         $notification = new Notification();
 
-        // Assign ke variable untuk memudahkan coding
-        $status = $notification->Transaction::transaction_status;
+    
+        $status = $notification->transaction_status;
         $type = $notification->payment_type;
         $fraud = $notification->fraud_status;
         $order_id = $notification->order_id;
 
-        // Cari transaksi berdasarkan ID
-        $transaction = Transaction::findOrFail($order_id);
 
-        // Handle notification status midtrans
         if ($status == 'capture') {
             if ($type == 'credit_card'){
                 if($fraud == 'challenge'){
-                    $transaction->status = 'PENDING';
+                    $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'PENDING'
+                        ]);
                 }
                 else {
-                    $transaction->status = 'SUCCESS';
+                    $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'SUCCESS'
+                        ]);
                 }
             }
         }
         else if ($status == 'settlement'){
-            $transaction->status = 'SUCCESS';
+             $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'SUCCESS'
+                        ]);
         }
         else if($status == 'pending'){
-            $transaction->status = 'PENDING';
+             $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'PENDING'
+                        ]);
         }
         else if ($status == 'deny') {
-            $transaction->status = 'CANCELLED';
+             $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'CANCELLED'
+                        ]);
         }
         else if ($status == 'expire') {
-            $transaction->status = 'CANCELLED';
+            $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'CANCELLED'
+                        ]);
         }
         else if ($status == 'cancel') {
-            $transaction->status = 'CANCELLED';
-        }
-        else if ($status == 'failure') {
-            $transaction->status = 'CANCELLED';
+            $transaction = Transaction::where('code', $order_id)->update([
+                            'transaction_status' => 'CANCELLED'
+                        ]);
         }
 
         // Simpan transaksi
-        $transaction->save();
 
+       return $transaction;
     }
 }
