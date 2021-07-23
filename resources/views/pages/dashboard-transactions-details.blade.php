@@ -153,6 +153,9 @@
                 </div>
                 <div class="row mt-4">
                   <div class="col-12 text-right">
+                    <a href="{{ $payment->pay_url ?? ''}}"> Bayar Sekarang</a>
+                  </div>
+                  <div class="col-12 text-right">
                     <button
                       type="submit"
                       class="btn btn-success btn-lg mt-4"
