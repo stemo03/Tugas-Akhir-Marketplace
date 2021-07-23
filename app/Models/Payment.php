@@ -22,6 +22,6 @@ class Payment extends Model
     }
 	
 	public function relasi(){
-        return $this->belongsTo(Transaction::class, 'code','order_id');
+        return $this->belongsTo(Transaction::class,'order_id', 'code');
     }
 }

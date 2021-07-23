@@ -13,7 +13,8 @@ class Transaction extends Model
         'shippinng_price',
         'total_price',
         'transaction_status',
-        'code'
+        'code',
+        'pay_url'
     ];
 
     protected $hidden = [
