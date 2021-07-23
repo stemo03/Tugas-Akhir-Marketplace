@@ -32,7 +32,8 @@ class CheckoutController extends Controller
             'shippinng_price' => $request->shipping,
             'total_price' => $request->total,
             'transaction_status' => 'PENDING',
-            'code' => $code
+            'code' => $code,
+            'pay_url' =>''
 
         ]);
         //  looping data yang ada di cart
@@ -85,12 +86,16 @@ class CheckoutController extends Controller
         try {
         // Get Snap Payment Page URL
             $paymentUrl = Snap::createTransaction($midtrans)->redirect_url;
+            $transaction = Transaction::where('id',  $transaction->id) ->update([
+                            'pay_url' => $paymentUrl,
+                        ]);
         // Redirect to Snap Payment Page
             return redirect($paymentUrl);
         }
         catch (Exception $e) {
             echo $e->getMessage();
         }
+		
        
     }
     
