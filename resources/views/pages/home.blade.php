@@ -152,6 +152,9 @@
                           <div class="products-price">
                           Rp {{ number_format($product->price) }}
                           </div>
+                          <div>
+                            {{ $product->user->store_name ??''}}
+                          </div>
                         </a>
                   </div>
               @empty

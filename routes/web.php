@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\Auth;
 // use App\Http\Controllers\HomeController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes(['verify'=>true]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
@@ -35,15 +37,15 @@ Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])-
 // Route::post('/checkout/callback', [App\Http\Controllers\CheckoutController::class, 'callback'])
 //     ->name('midtrans-callback');
 
-Route::get('/register/success', [ App\Http\Controllers\Auth\RegisterController::class, 'success'])
+
+
+
+
+
+
+Route::group(['middleware' => ['auth','verified']], function () {
+    Route::get('/successRegister', [ App\Http\Controllers\Auth\RegisterController::class, 'success'])
     ->name('register-success');
-
-
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/register/success', [ App\Http\Controllers\Auth\RegisterController::class, 'success'])
-    ->name('register-success');
-
 
     Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])->name('success');
     Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
@@ -86,6 +88,11 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('dashboard-settings-account');
     Route::post('/dashboard/update/{redirect}', [App\Http\Controllers\DashboardSettingController::class, 'update'])
         ->name('dashboard-settings-redirect');
+
+    Route::get('/print', [App\Http\Controllers\DashboardController::class, 'print'])->name('print');
+    Route::get('/shop/{id}', [App\Http\Controllers\DetailController::class, 'shop'])->name('shop');
+
+    Route::POST('comentar-user',[App\Http\Controllers\Admin\ProductController::class,'comment'])->name('commentar');
 
 });
 

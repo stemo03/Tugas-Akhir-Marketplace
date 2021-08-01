@@ -89,7 +89,7 @@ data-aos="fade-up"
                                             class="form-control"
                                             id="provinces_id"
                                             name="provinces_id"
-                                            value="{{ $user->province->name }}"
+                                            value="{{ $user->province->name ?? ''}}"
                                             disabled
                                         />
                                     </div>
@@ -104,7 +104,7 @@ data-aos="fade-up"
                                             class="form-control"
                                             id="regencies_id"
                                             name="regencies_id"
-                                            value="{{ $user->regencies->name }}"
+                                            value="{{ $user->regencies->name ?? ''}}"
                                             disabled
                                         />
                                     </div>
@@ -154,7 +154,7 @@ data-aos="fade-up"
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="phone_number">Mobile</label>
+                                        <label for="phone_number">Telepon <sub>Gunakan kode negara(+628XXXXXX)</sub></label>
                                         <input
                                             type="text"
                                             class="form-control"

@@ -11,8 +11,7 @@ use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 use App\Http\Requests\Admin\ProductRequest;
-
-
+use App\Models\Comment;
 
 class ProductController extends Controller
 {
@@ -150,6 +149,18 @@ class ProductController extends Controller
         $item->delete();
 
         return redirect()->route('product.index');
+    }
+
+    public function comment()
+    {
+        Comment::create([
+            'users_id' => request()->users_id,
+            'products_id' => request()->products_id,
+            'comment' => request()->comment,
+        ]);
+
+        $product = Product::with(['galleries', 'user'])->findOrFail(request()->products_id);
+        return redirect()->route('detail',$product->slug);
     }
 }
 
