@@ -17,12 +17,34 @@ class DashboardController extends Controller
                             });
 
         $revenue = $transactions->get()->reduce(function ($carry, $item) {
-            return $carry + $item->price;
+            return $carry + $item->price+30000;
         });
 
         $customer = User::count();
 
         return view('pages.dashboard',[
+            'transaction_count' => $transactions->count(),
+            'transaction_data' => $transactions->get(),
+            'revenue' => $revenue,
+            'customer' => $customer,
+        ]);
+    }
+
+
+
+      public function print(){
+       $transactions = TransactionDetail::with(['transaction.user','product.galleries'])
+                            ->whereHas('product', function($product){
+                                $product->where('users_id', Auth::user()->id);
+                            });
+
+        $revenue = $transactions->get()->reduce(function ($carry, $item) {
+            return $carry + $item->price+30000;
+        });
+
+        $customer = User::count();
+
+        return view('pages.print-transaction',[
             'transaction_count' => $transactions->count(),
             'transaction_data' => $transactions->get(),
             'revenue' => $revenue,

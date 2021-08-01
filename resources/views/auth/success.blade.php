@@ -22,7 +22,7 @@
                 voluptatem veniam, voluptates id optio illo odit repellat
                 impedit enim possimus dignissimos maiores ex ut?
               </p>
-              <a href="/dashboard.html" class="btn btn-success w-50 mt-4"
+              <a href="{{ route('dashboard') }}" class="btn btn-success w-50 mt-4"
                 >My Dashboard</a
               >
               <a href="{{ route('home') }}" class="btn btn-signup w-50 mt-2"

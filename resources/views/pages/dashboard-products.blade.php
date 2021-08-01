@@ -47,8 +47,8 @@
                                 <div class="product-category">
                                     {{ $product->category->name }}
                                 </div>
-                                <div class="product-category">
-                                    {{ $product->price }}
+                                <div class="products-price">
+                                   Rp.  {{number_format ($product->price) }}
                                 </div>
                             </div>
                         </a>

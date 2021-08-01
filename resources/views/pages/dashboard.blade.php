@@ -56,6 +56,12 @@ data-aos="fade-up"
         </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 float-lg-right" >
+            <a href="{{ route('print') }}" class="btn btn-primary" target="_blank" ><i class="fas fa-print"></i> Cetak </a>
+        </div>
+        
+    </div>
     <div class="row mt-3">
         <div class="col-12 mt-2">
             <h5 class="mb-3">Recent Transactions</h5>

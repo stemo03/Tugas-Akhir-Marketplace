@@ -13,13 +13,7 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->integer('users_id');
-			$table->string('order_id');
-			$table->string('pay_url');
-            $table->timestamps();
-        });
+       Schema::dropIfExists('payments');
     }
 
     /**
