@@ -55,7 +55,7 @@
     @csrf
 	<div class="mt-5">
     <center>
-      <h1 style="font-family: sans-serif;" class="mt-6">Laporan Transaksi Penjualan Toko</h1>
+      <h1 style="font-family: sans-serif;" class="mt-6">Laporan Transaksi</h1>
     </center>
   </div>
     <div class="container form-group">
@@ -69,22 +69,20 @@
             <th>No.</th>
             <th>Kode Transaksi</th>
             <th>Nama Customer</th>
-            <th>Nama Barang</th>
-            <th>Harga Barang</th>
+            <th>Total</th>
             <th>Status</th>
             <th>Tanggal</th>
 			</tr>
 		</thead>
 		<tbody>
-             @foreach ($transaction_data as $item)
+             @foreach ($transactions as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->transaction->code?? '' }}</td>
-                <td>{{ $item->transaction->user->name ?? ''}}</td>
-                 <td>{{ $item->product->name ?? ''}}</td>
-                <td> Rp. {{ number_format($item->product->price +30000) ?? '' }}</td>
-                <td>{{ $item->transaction->transaction_status ?? '' }}</td>
-                <td>{{ $item->transaction->created_at ?? '' }}</td>
+                <td>{{ $item->code }}</td>
+                <td>{{ $item->user->name }}</td>
+                <td> Rp. {{ number_format($item->total_price)  }}</td>
+                <td>{{ $item->transaction_status  }}</td>
+                <td>{{ $item->created_at  }}</td>
                 
 
             </tr>

@@ -13,10 +13,14 @@
             "
         >
             <div class="col-lg-4">
-                <h2>
-                    Memulai untuk jual beli <br />
-                    dengan cara terbaru
-                </h2>
+                    <div class="form-group col mb-4">
+                        <center>
+                            <h2 style="font-family: 'EB Garamond', serif;">
+                            Mulai Transaksi Jual Beli Dengan Cara Terbaru dan Termudah
+                        </h2>
+                    </center>
+                    </div>
+                
                  <form method="POST" action="{{ route('register') }}">
                         @csrf
                     <div class="form-group">

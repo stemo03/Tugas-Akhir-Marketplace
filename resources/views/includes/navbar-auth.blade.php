@@ -15,6 +15,11 @@
                         height="51px"
                     />
                 </a>
+                <div class="mt-3">
+                    <p style="font-family: 'EB Garamond', serif;">
+                           Farmers Marketplace Indonesia
+                </p>
+                </div>
                 <button
                     class="navbar-toggler"
                     type="button"

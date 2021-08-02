@@ -85,27 +85,27 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="col-12 col-md-6">
-                        <div class="product-title">Address I</div>
+                        <div class="product-title">Alamat</div>
                         <div class="product-subtitle">
                           {{ $transaction->transaction->user->address_one }}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
-                        <div class="product-title">Address II</div>
+                        <div class="product-title">Kecamatan</div>
                         <div class="product-subtitle">
                           {{ $transaction->transaction->user->address_two }}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
-                        <div class="product-title">Province</div>
+                        <div class="product-title">Provinsi</div>
                         <div class="product-subtitle">
-                          {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->name }}
+                          {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->name ??''}}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
-                        <div class="product-title">City</div>
+                        <div class="product-title">Kabupaten/ Kota</div>
                         <div class="product-subtitle">
-                          {{ App\Models\Regency::find($transaction->transaction->user->regencies_id)->name }}
+                          {{ App\Models\Regency::find($transaction->transaction->user->regencies_id)->name ??''}}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">

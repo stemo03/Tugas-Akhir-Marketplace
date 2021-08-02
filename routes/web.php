@@ -102,12 +102,15 @@ Route::prefix('admin')
                 ->middleware(['auth','admin'])
                 ->group(function(){
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin-dashboard');
+    // Route::get('/print', [App\Http\Controllers\Admin\TransactionController::class, 'print'])->name('print_admin');
     // Route::resource('category', 'App\Http\Controllers\Admin\CategoryController@index');
     Route::resource('category','\App\Http\Controllers\Admin\CategoryController');
+    Route::resource('blog','\App\Http\Controllers\Admin\BlogController');
     Route::resource('user','\App\Http\Controllers\Admin\UserController');
     Route::resource('product','\App\Http\Controllers\Admin\ProductController');
     Route::resource('product-gallery','\App\Http\Controllers\Admin\ProductGalleryController'); 
     Route::resource('transaction', '\App\Http\Controllers\Admin\TransactionController');
+    Route::resource('print', '\App\Http\Controllers\Admin\PrintController');
 });
 Auth::routes();
 

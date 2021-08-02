@@ -76,8 +76,14 @@
                             href="{{ route('user.index') }}"
                             class="list-group-item list-group-item-action {{(request()->is('admin/user*'))? 'active':'' }}"
                         >
-                            Users</a
+                            Users
+                        </a>
+                        <a
+                            href="{{ route('blog.index') }}"
+                            class="list-group-item list-group-item-action {{(request()->is('admin/blog*'))? 'active':'' }}"
                         >
+                            Blog
+                        </a>
                         <a
                             href="{{ route('home') }}"
                             class="list-group-item list-group-item-action"

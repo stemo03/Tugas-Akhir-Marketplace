@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\Blog;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
+use App\Http\Requests\Admin\BlogRequest;
 
 
-class TransactionController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +18,9 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        if (request()->ajax()) {
-            $query = Transaction::with(['user']);
+    {   
+      if (request()->ajax()) {
+            $query = Blog::query();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
@@ -33,10 +35,10 @@ class TransactionController extends Controller
                                         Aksi
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="action' .  $item->id . '">
-                                    <a class="dropdown-item" href="' . route('transaction.edit', $item->id) . '">
+                                    <a class="dropdown-item" href="' . route('blog.edit', $item->id) . '">
                                         Sunting
                                     </a>
-                                    <form action="' . route('transaction.destroy', $item->id) . '" method="POST">
+                                    <form action="' . route('blog.destroy', $item->id) . '" method="POST">
                                         ' . method_field('delete') . csrf_field() . '
                                         <button type="submit" class="dropdown-item text-danger">
                                             Hapus
@@ -46,11 +48,13 @@ class TransactionController extends Controller
                             </div>
                     </div>';
                 })
-                ->rawColumns(['action'])
+                ->editColumn('photo', function ($item) {
+                    return $item->photo ? '<img src="' . \Storage::url($item->photo) . '" style="max-height: 40px;"/>' : '';
+                })
+                ->rawColumns(['action', 'photo'])
                 ->make();
-        }
-
-        return view('pages.admin.transaction.index');
+      }
+        return view('pages.admin.blog.index');
     }
 
     /**
@@ -60,7 +64,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.blog.create');
     }
 
     /**
@@ -69,9 +73,16 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        //
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->name);//helper dari use Illuminate\Support\Str; bawaan laravel. NAME  itu fied database
+        $data['photo'] = $request->file('photo')->store('assets/blog', 'public');
+        
+        Blog::create($data);
+
+        return redirect()->route('blog.index');
     }
 
     /**
@@ -93,9 +104,10 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        $item = Transaction::with(['user'])->findOrFail($id);
-        
-        return view('pages.admin.transaction.edit',[
+         //$item = Blog::findOrFail($id); kita panggil item=blog(model). fin bla bla, kalo dia ngggak ketemu di nunjukkan error 404
+
+          $item = Blog::findOrFail($id);
+          return view('pages.admin.blog.edit',[
             'item' => $item
         ]);
     }
@@ -107,16 +119,20 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogRequest $request, $id)
     {
-        $data = $request->all();
+       $data = $request->all();
 
-        $item = Transaction::findOrFail($id);
+        $data['slug'] = Str::slug($request->name);
+        $data['photo'] = $request->file('photo')->store('assets/blog', 'public');
 
+        $item = Blog::findOrFail($id); 
+ 
         $item->update($data);
 
-        return redirect()->route('transaction.index');
+        return redirect()->route('blog.index');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -126,21 +142,10 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        $item = Transaction::findorFail($id);
+        $item = Blog::findorFail($id);
         $item->delete();
 
-        return redirect()->route('transaction.index');
+        return redirect()->route('blog.index');
     }
-
-    // public function print(){
-    //    $transactions = Transaction::with(['user']);
-    //    $revenue = $transactions ::sum('total_price') ;
-    //    $transaction_count = $transactions ::count();
-
-    //     return view('pages.admin.transaction.print-transaction',[
-    //         'transaction' => $transactions,
-    //         'revenue'=>$revenue,
-    //         'transaction_count'=>$transaction_count,
-    //     ]);
-    // }
 }
+

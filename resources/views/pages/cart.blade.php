@@ -225,7 +225,7 @@
                 </div>
                 <div class="col-4 col-md-2">
                   <div class="product-title">Rp. {{ number_format($shipping ?? 0) }}</div>
-                  <div class="product-subtitle">Ship To Jakarta</div>
+                  <div class="product-subtitle">Ongkos Kirim</div>
                 </div>
                 <div class="col-4 col-md-2">
                   <div class="product-title text-success">Rp. {{ number_format($total ?? 0) }}</div>

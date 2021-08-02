@@ -4,25 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class PrintController extends Controller
 {
      public function index()
-    {   $customer = User::count();
-        $blog = Blog::take(6)->get();
+    {   
+        $transactions = Transaction::with(['user'])->get();
         $revenue = transaction::sum('total_price') ;
         // $revenue = transaction::where('transaction_status','SUCCESS')->sum('total_price') ;  Kalau jumah trasnsaksi dihitung berdasarkan status 
-        $transaction = transaction::count();
+        $transaction_count = transaction::count();
 
 
-        return view('pages.admin.dashboard',[
-            'customer'=>$customer,
+        return view('pages.admin.transaction.print-transaction',[
             'revenue'=>$revenue,
-            'transaction'=>$transaction,
-            'blog'=>$blog,
+            'transaction_count'=>$transaction_count,
+            'transactions'=>$transactions,
         ]);
     }
+
 }
