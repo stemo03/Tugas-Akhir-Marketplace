@@ -17,7 +17,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with(['galleries'])->paginate(32);
+        $products = Product::with(['galleries'])->whereHas('user', function($user){
+                                $user->where('store_status',1 );
+                            })->paginate(32);
 
         return view('pages.category',[
             'categories' => $categories,

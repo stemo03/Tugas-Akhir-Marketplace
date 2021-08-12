@@ -81,7 +81,10 @@
                               {{  $product->name }}
                           </div>
                           <div class="products-price">
-                              Rp{{ $product->price }}
+                              Rp {{ number_format($product->price) }}
+                          </div>
+                          <div class="products-price">
+                              {{$product->user->store_status }}
                           </div>
                         </a>
                   </div>

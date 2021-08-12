@@ -46,6 +46,9 @@ class TransactionController extends Controller
                             </div>
                     </div>';
                 })
+                ->editColumn('total_price',function($item){
+                    return number_format($item->total_price);
+                })
                 ->rawColumns(['action'])
                 ->make();
         }

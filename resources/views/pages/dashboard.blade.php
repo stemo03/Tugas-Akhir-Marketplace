@@ -74,10 +74,13 @@ data-aos="fade-up"
                  <div class="col-md-2">
                     Kode transaksi
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     Customer
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    Pembayaran
+                </div>
+                <div class="col-md-2">
                 Tanggal Transaksi
                 </div>
             </div>
@@ -100,10 +103,13 @@ data-aos="fade-up"
                             <div class="col-md-2">
                                 {{ $transaction->transaction->code ?? '' }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 {{ $transaction->transaction->user->name ?? '' }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                            {{ $transaction->transaction->transaction_status}}
+                            </div>
+                            <div class="col-md-2">
                                 {{  $transaction->created_at ?? '' }}
                             </div>
                             <div class="col-md-1 d-none d-md-block">

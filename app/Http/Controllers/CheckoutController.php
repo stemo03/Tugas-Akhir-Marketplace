@@ -46,7 +46,8 @@ class CheckoutController extends Controller
                 'price' => $cart->product->price,
                 'shipping_status' => 'PENDING',
                 'resi' => '',
-                'code' => $trx
+                'qty'=>$cart->qty,
+                'code' => $trx,
             ]);
         }
         // Reset Cart After Checkout

@@ -44,7 +44,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                           <label for="">Email User</label>
-                                          <input type="email" name="email" id="" class="form-control" value="{{ $item->email }}">
+                                          <input type="email" name="email" id="" class="form-control" value="{{ $item->email }}" disabled>
                                           
                                         </div>
                                     </div>

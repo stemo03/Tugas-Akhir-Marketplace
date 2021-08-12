@@ -36,7 +36,9 @@
                   <tr>
                     <td>Image</td>
                     <td>Name &amp; Seller</td>
-                    <td>Price</td>
+                    <td>Jumlah Barang</td>
+                    <td>Harga Satuan</td>
+                    <td>Subtotal Harga</td>
                     <td>Menu</td>
                   </tr>
                 </thead>
@@ -68,10 +70,37 @@
                                 <div class="product-title">{{ $cart->product->name }}</div>
                                 <div class="product-subtitle">{{ $cart->product->user->store_name }}</div>
                               </td>
+
+                            <td style="width: 20%;" >
+                                <div>
+                                  @if ($cart->qty>1)
+                                    <form action="{{ route('dec',$cart->id) }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm" style="width: 25%; display:inline;">-</button>
+                                    </form>
+                                  @endif
+                                  <input type="text" name="qty" class="form-control qty" style="width: 25%; display:inline;" value="{{ $cart->qty }}"readonly>
+
+                                  <form action="{{ route('in',$cart->id) }}" method="post" enctype="multipart/form-data" >
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-sm" style="width: 25%;display:inline;" >+</button>
+                                  </form>
+                                </div>
+                                </td>
+
+                        {{-- Harga Satuan --}}
+
                               <td style="width: 35%">
-                                <div class="product-title">Rp. {{ number_format($cart->product->price) }}</div>
+                                <div class="product-title" id='price'>Rp. {{ number_format($cart->product->price) }}</div>
                                 <div class="product-subtitle">Rupiah</div>
                               </td>
+
+                          {{-- Sub total Harga --}}
+                              <td style="width: 20%;">
+                                <div class="product-title">Rp. {{ number_format($cart->product->price * $cart->qty ) }}</div>
+                                <div class="product-subtitle">Rupiah</div>
+                             </td>
+
                               <td style="width: 20%;">
                                 <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
                                   @method('DELETE')
@@ -82,8 +111,8 @@
                                 </form>
                               </td>
                               @php
-                                
-                                $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                                // HITUNG BEDASARKAN JUMLAH 
+                                $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->sum('qty');
                                 $shipping=$carts*30000;
                                 $totalPrice += $cart->product->price;
                                 $tax=$totalPrice*0.001;
@@ -225,7 +254,7 @@
                 </div>
                 <div class="col-4 col-md-2">
                   <div class="product-title">Rp. {{ number_format($shipping ?? 0) }}</div>
-                  <div class="product-subtitle">Ongkos Kirim</div>
+                  <div class="product-subtitle">Ship To Jakarta</div>
                 </div>
                 <div class="col-4 col-md-2">
                   <div class="product-title text-success">Rp. {{ number_format($total ?? 0) }}</div>
