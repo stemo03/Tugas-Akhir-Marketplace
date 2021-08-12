@@ -17,10 +17,7 @@
               />
               <h2>Transaction Prosessed!</h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae quasi assumenda atque praesentium natus, quia
-                voluptatem veniam, voluptates id optio illo odit repellat
-                impedit enim possimus dignissimos maiores ex ut?
+                Silahkan selesaikan transaksi pembelian anda dengan membayar dengan total harga yang telah di tentukan, lakukan pembayaran sesuai dengan metode yang anda pilih. Jika sudah melakukan pembayaran, silahkan tungggu dan pantau transaksi anda di Dahboard anda! <br> Terima kasih terlah berbelanja!
               </p>
               <a href="{{ route('dashboard') }}" class="btn btn-success w-50 mt-4"
                 >My Dashboard</a

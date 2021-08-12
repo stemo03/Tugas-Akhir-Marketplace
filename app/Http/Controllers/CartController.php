@@ -65,4 +65,27 @@ class CartController extends Controller
 
     //     ])->get();
     // }
+
+
+    public function increment($id){
+        // dd($id);
+        $transaction = Cart::find($id);
+
+        $transaction->update([
+            'qty'=>$transaction->qty + 1,
+            'total'=>$transaction->product->price*($transaction->qty + 1)
+        ]);
+        return redirect()->route('cart');
+    }
+    public function decrement($id){
+        // dd($id);
+        $transaction = cart::find($id);
+
+        $transaction->update([
+            'qty'=>$transaction->qty - 1,
+            'total'=>$transaction->product->price*($transaction->qty - 1)
+        ]);
+        return redirect()->route('cart');
+    }
+
 }

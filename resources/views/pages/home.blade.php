@@ -167,7 +167,7 @@
                             Rp {{ number_format($product->price) }}
                             </div>
                             <div>
-                              {{ $product->user->store_name ??''}}
+                              {{ $product->user->store_name ??''}} 
                             </div>
                           </a>
                     </div>

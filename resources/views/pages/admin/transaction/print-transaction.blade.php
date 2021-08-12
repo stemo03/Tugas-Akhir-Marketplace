@@ -78,11 +78,11 @@
              @foreach ($transactions as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->code }}</td>
-                <td>{{ $item->user->name }}</td>
-                <td> Rp. {{ number_format($item->total_price)  }}</td>
-                <td>{{ $item->transaction_status  }}</td>
-                <td>{{ $item->created_at  }}</td>
+                <td>{{ $item->code ?? ''}}</td>
+                <td>{{ $item->user->name ?? '' }}</td>
+                <td> Rp. {{ number_format($item->total_price) ?? '' }}</td>
+                <td>{{ $item->transaction_status ?? '' }}</td>
+                <td>{{ $item->created_at ?? '' }}</td>
                 
 
             </tr>

@@ -26,6 +26,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify'=>true]);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/call', [App\Http\Controllers\HomeController::class, 'callcenter'])->name('callcanter');
+Route::get('/profil', [App\Http\Controllers\HomeController::class, 'profil'])->name('profil');
+
+
 Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
 Route::get('/categories/{id}', [App\Http\Controllers\CategoryController::class, 'detail'])->name('categories-detail');
 
@@ -94,6 +98,10 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
     Route::POST('comentar-user',[App\Http\Controllers\Admin\ProductController::class,'comment'])->name('commentar');
 
+    Route::post('/cart-dec/{id}', [App\Http\Controllers\CartController::class,'decrement'])
+        ->name('dec');
+Route::post('/cart-in/{id}', [App\Http\Controllers\CartController::class,'increment'])
+        ->name('in');
 });
 
 

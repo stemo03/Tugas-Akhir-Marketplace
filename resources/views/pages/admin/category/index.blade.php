@@ -30,7 +30,8 @@
                                 <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
                                     <thead>
                                         <tr>
-                                            <td>Id</td>
+                                            {{-- <td>Id</td> --}}
+                                            <td>No</td>
                                             <td>Nama</td>
                                             <td>Foto</td>
                                             <td>Slug</td>
@@ -63,7 +64,12 @@
             url:'{!! url()->current() !!}'
         },
         columns:[
-            {data:'id',name:'id'},
+            { "data": null,"sortable": false, 
+                render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+                }  
+            },
+            // {data:'id',name:'id'},
             {data:'name',name:'name'},
             {data:'photo',name:'photo'},
             {data:'slug',name:'slug'},
