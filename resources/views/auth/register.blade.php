@@ -173,6 +173,49 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group" v-if="is_store_open">
+                        <label for="">KTP</label>
+                        <input type="file" name="id_card" id="" class="form-control">
+                    </div>
+                    <div class="form-group" v-if="is_store_open">
+                        <label>Jenis</label>
+                        <select
+                            name="type"
+                            id=""
+                            class="form-control"
+                        >
+                            <option value="" disabled>
+                                Jenis File
+                            </option>
+                            @foreach($values as $value)
+                                <option value="
+                                    @if ($value === 'npwp')
+                                        npwp
+                                    @elseif ($value === 'siup')
+                                        siup
+                                    @elseif ($value === 'situ')
+                                        situ
+                                    @elseif ($value === 'pbb')
+                                        pbb
+                                    @endif
+                                ">
+                                    @if ($value === 'npwp')
+                                        NPWP
+                                    @elseif ($value === 'siup')
+                                        SIUP
+                                    @elseif ($value === 'situ')
+                                        SITU
+                                    @elseif ($value === 'pbb')
+                                        PBB
+                                    @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group" v-if="is_store_open">
+                        <label for="">File</label>
+                        <input type="file" name="file" id="">
+                    </div>
                     <button
                         type="submit"
                         class="btn btn-success btn-block mt-4"
@@ -241,7 +284,7 @@
                     return {
                         name: "",
                         email: "",
-                        is_store_open: true,
+                        is_store_open:"",
                         store_name: "",
                         email_unavailable: false
                     }

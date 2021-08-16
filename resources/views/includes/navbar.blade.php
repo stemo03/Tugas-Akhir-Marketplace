@@ -36,9 +36,9 @@
             <li class="nav-item">
               <a href="{{ route('categories')}}" class="nav-link">Categories</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a href="#" class="nav-link">Rewards</a>
-            </li>
+            </li> --}}
             @guest
                 <li class="nav-item">
                     <a href="{{ route('register') }}" class="nav-link">Sign Up</a>
@@ -70,9 +70,24 @@
                          Hi, {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ route('dashboard') }}" class="dropdown-item">
-                            Dashboard
-                        </a>
+                        @php
+                          $roles = \App\Models\User_roles::with(['role', 'user'])
+                                    ->whereHas('user', function($q){
+                                      $q->where('id', Auth::user()->id);
+                                    })->first();
+                        @endphp
+                        @if($roles->role->name == 'ADMIN')
+                          <a href="{{ route('admin-dashboard') }}" class="dropdown-item">
+                              Dashboard As Admin
+                          </a>
+                          <a href="{{ route('dashboard') }}" class="dropdown-item">
+                              Dashboard As User
+                          </a>
+                        @else
+                          <a href="{{ route('dashboard') }}" class="dropdown-item">
+                              Dashboard
+                          </a>
+                        @endif
                         <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item">
                             Settings
                         </a>

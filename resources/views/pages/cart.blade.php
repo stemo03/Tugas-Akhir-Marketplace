@@ -113,8 +113,8 @@
                               @php
                                 // HITUNG BEDASARKAN JUMLAH 
                                 $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->sum('qty');
-                                $shipping=$carts*30000;
-                                $totalPrice += $cart->product->price;
+                                // $shipping=$carts*30000;
+                                $totalPrice =\App\Models\Cart::where('users_id', Auth::user()->id)->sum('total');
                                 $tax=$totalPrice*0.001;
                                 
                                 if ($totalPrice<500000) {
@@ -128,6 +128,8 @@
                                 $total= $shipping+$totalPrice+$tax+$insurance;
                                 
                               @endphp
+                              <input type="text" hidden id="kota_asal" value="{{ $cart->product->user->provinces_id }}" name="kota_asal">
+                              <input type="text" hidden id="berat" value="{{  $cart->product->weight }}">
                         @endforeach
                       @endif
                        
@@ -179,22 +181,37 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="provinces_id">Province</label>
-                    <select name="provinces_id" id="provinces_id" class="form-control"    
-                            v-model="provinces_id" v-if="provinces">
-                      <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
-                    </select>
-                    <select v-else class="form-control"></select>
-                  </div>
-              </div>
-              <div class="col-md-4">
-                  <div class="form-group">
-                      <label for="regencies_id">City</label>
-                      <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
-                        <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
+                    @if(Auth::user()->provinces_id)
+                      <select name="provinces_id" required class="form-control" id="province">
+                        <option value="{{ $address->province->province_id }}">{{ $address->province->title }}</option>
+                          @foreach($provinces as $province => $value)
+                          <option value="{{ $province }}">{{ $value}}</option>
+                          @endforeach
                       </select>
-                    <select v-else class="form-control"></select>
+                    @else
+                      <select name="provinces_id" required class="form-control" id="province">
+                        <option value="">Pilih Provinsi</option>
+                        @foreach($provinces as $province => $value)
+                        <option value="{{ $province }}">{{ $value}}</option>
+                        @endforeach
+                      </select>
+                    @endif
                   </div>
-              </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="regencies_id">City</label>
+                        @if(Auth::user()->provinces_id)
+                          <select name="regencies_id" required class="form-control" id="city">
+                            <option value="{{  $address->regencies->city_id }}">{{ $address->regencies->title }}</option>
+                          </select>
+                        @else
+                        <select name="regencies_id" required class="form-control" id="city">
+                          <option value="">Pilih kabupaten/kota</option>
+                        </select>
+                        @endif
+                    </div>
+                </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="zip_code">Postal Code</label>
@@ -231,6 +248,24 @@
                     />
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="courier">Jasa Kurir</label>
+                    <select name="courier" required class="form-control">
+                        <option value="">Pilih Jasa Kurir</option>
+                        @foreach($courier as $key => $value)
+                            <option value="{{ $value->code }}">{{ $value->title}}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="detail_courier"></label>
+                  <select name="detail_courier" class="custom-select" id="detail_courier">
+                    <option value="">Pilih Jasa Pengiriman</option>
+                    
+                  </select>
+                </div>
              </div>
 
         
@@ -253,11 +288,12 @@
                   <div class="product-subtitle">Product Insurance</div>
                 </div>
                 <div class="col-4 col-md-2">
-                  <div class="product-title">Rp. {{ number_format($shipping ?? 0) }}</div>
-                  <div class="product-subtitle">Ship To Jakarta</div>
+                  <div class="product-title shipping">Rp. {{ number_format($shipping ?? 0) }}</div>
+                  <div class="product-subtitle">Ship To Tujuan</div>
                 </div>
                 <div class="col-4 col-md-2">
-                  <div class="product-title text-success">Rp. {{ number_format($total ?? 0) }}</div>
+                  <div class="product-title text-success total">Rp. {{ number_format($total ?? 0) }}</div>
+                  <input type="text" name="totalbayar" hidden>
                   <div class="product-subtitle">Total</div>
                 </div>
                 <div class="col-8 col-md-3">
@@ -276,44 +312,108 @@
 @endsection
 
 @push('addon-script')
-    <script src="/vendor/vue/vue.js"></script>
-    <script src="https://unpkg.com/vue-toasted"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+<script>
+    $(document).ready(function() {
+        $('select[name="provinces_id"]').on('change', function(){
+            let provinceId = $(this).val();
+            if(provinceId) {
+                jQuery.ajax({
+                    url:'/province/'+provinceId+'/cities',
+                    type:"GET",
+                    dataType:"json",
+                    success:function(data){
+                        $('select[name="regencies_id"]').empty();
+                        $.each(data, function(key,value){
+                            $('select[name="regencies_id"]').append('<option value="'+key+'">' + value+ '</option>' );
+                        });
+                    }, 
+                });
+            }
+            else{
+                $('select[name="regencies_id"]').empty();
+            }
+        });
+    });
+</script>
+
     <script>
-      var locations = new Vue({
-        el: "#locations",
-        mounted() {
-          AOS.init();
-          this.getProvincesData();
-        },
-        data: {
-          provinces: null,
-          regencies: null,
-          provinces_id: null,
-          regencies_id: null,
-        },
-        methods: {
-          getProvincesData() {
-            var self = this;
-            axios.get('{{ route('api-provinces') }}')
-              .then(function (response) {
-                  self.provinces = response.data;
-              })
-          },
-          getRegenciesData() {
-            var self = this;
-            axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
-              .then(function (response) {
-                  self.regencies = response.data;
-              })
-          },
-        },
-        watch: {//untuk melihat perubahan data
-          provinces_id: function (val, oldVal) {
-            this.regencies_id = null;
-            this.getRegenciesData();
-          },
-        }
-      });
+         $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
     </script>
+    
+<script>
+    $(document).ready(function() {
+        let isProcessing = false;
+        $('.ongkos_kirim').empty();
+        $('select[name="courier"]').on('change', function(){
+            let token            = $("meta[name='csrf-token']").attr("content");
+            let city_origin      = $('input[id=kota_asal]').val();
+            let city_destination = $('select[name=regencies_id]').val();
+            let courier          = $('select[name=courier]').val();
+            let weight           = $('input[id=berat]').val();
+
+            if(isProcessing) {
+                return;
+            }
+
+            isProcessing = true;
+
+            jQuery.ajax({
+                url: "/ongkir",
+                data: {
+                    _token: token,
+                    city_origin: city_origin,
+                    city_destination: city_destination,
+                    courier: courier,
+                    weight: weight,
+                },
+                dataType: "JSON",
+                type: "POST",
+                success: function(response) {
+                    isProcessing = false;
+                    if(response) {
+                        $('#detail_courier').empty();
+                        // $('.jasa_kurir').addClass('d-block');
+                        $.each(response[0]['costs'], function (key, value) {
+                            $('#detail_courier').append('<option value=""></option><option value="'+value.cost[0].value+'">'+response[0].code.toUpperCase()+' : <strong>'+value.service+'</strong> - Rp. '+value.cost[0].value+' ('+value.cost[0].etd+' hari)</option>')
+                        });
+                        
+                    }
+                }
+            });
+        });
+
+        $('select[name="detail_courier"]').on('change', function(){
+            let ongkir = $(this).val();
+            let totalPrice = $('input[name=total]').val();
+            $('.total').empty();
+            $('input[name=totalbayar]').empty();
+            if(ongkir) {
+                let total_biaya = parseInt(totalPrice) + parseInt(ongkir);
+                $('.shipping').empty();
+
+                $('.shipping').append('Rp.  '+ongkir);
+                    
+                $('.total').append('Rp. '+total_biaya);
+                $('input[name=totalbayar]').val(total_biaya);
+
+                $('input[name="shipping"]').val(ongkir);
+            }
+            else{
+                $('.shipping').empty();
+            }
+        });
+
+        
+    });
+</script>
 @endpush

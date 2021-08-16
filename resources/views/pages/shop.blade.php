@@ -15,7 +15,7 @@
              <center>
                  <img style="max-width: 10%;max-height: 10%" src="https://image.flaticon.com/icons/png/512/869/869636.png" alt="">
                <div>
-                    <h1 style="font-family: 'Abril Fatface', cursive;color">{{ $product->user->store_name ?? '' }}</h1>
+                    <h1 style="font-family: 'Abril Fatface', cursive;color">{{ $product->user->store->store_name ?? '' }}</h1>
                </div>
             </center> 
             </div>
@@ -90,7 +90,7 @@
                                             class="form-control"
                                             id="provinces_id"
                                             name="provinces_id"
-                                            value="{{ $product->user->province->name ?? '' }}"
+                                            value="{{ $product->user->province->title?? '' }}"
                                         />
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                                             class="form-control"
                                             id="regencies_id"
                                             name="regencies_id"
-                                            value="{{ $product->user->regencies->name ?? '' }}"
+                                            value="{{ $product->user->regencies->title ?? '' }}"
                                         />
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <button class="btn btn-success">
-                                         <a href="https://wa.me/{{ $product->user->phone_number }}?text=Halo%2C%20Saya%20mau%20bertanya%20seputar%20produk%20toko%20anda!" style="text-decorations:none; color:inherit;"> Hubungi Seller </a><i class="fab fa-whatsapp"></i>
+                                         <a href="https://wa.me/{{ $product->user->phone_number }}?text=Halo%2C%20Saya%20mau%20bertanya%20seputar%20produk%20toko%20anda!" style="text-decorations:none; color:inherit;" target="_blank"> Hubungi Seller </a><i class="fab fa-whatsapp"></i>
                                     </button>
                                 </div>
                                 <div class="col-md-12 mt-4">

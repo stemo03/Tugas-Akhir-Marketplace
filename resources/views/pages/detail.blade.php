@@ -86,7 +86,7 @@
               <div class="col-lg-8">
                 <h1 style="font-family: serif;color:black" class="mt-2 mb-1">{{ $product->name }}</h1>
                 <div class="owner">By 
-                  <a href="{{ route('shop', $product->slug) }}">{{ $product->user->store_name ?? '' }}</a>
+                  <a href="{{ route('shop', $product->slug) }}">{{ $product->user->store->store_name ?? '' }}</a>
                 </div>
                 <div class="price">Rp. {{ number_format($product->price) }}</div>
                 <div class="quantities">Stock Barang  :  {{ number_format($product->quantities) }}</div>

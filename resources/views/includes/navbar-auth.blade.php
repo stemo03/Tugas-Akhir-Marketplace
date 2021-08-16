@@ -38,9 +38,9 @@
                                 >Categories</a
                             >
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">Rewards</a>
-                        </li>
+                        </li> --}}
                         
                     </ul>
                 </div>

@@ -50,13 +50,19 @@
                                             <input type="number" class=" form-control" name="price"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Jumlah</label>
                                             <input type="number" class=" form-control" name="quantities"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Berat (gr)</label>
+                                            <input type="number" class=" form-control" name="weight"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Kategori</label>
                                             <select name="categories_id" class="form-control">

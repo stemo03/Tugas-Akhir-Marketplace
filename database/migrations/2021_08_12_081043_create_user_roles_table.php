@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRolesFieldToUsersTable extends Migration
+class CreateUserRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class AddRolesFieldToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('roles')->default('USER');//user(buyer and seller)/admin(all akses user)
-
-
-            // 
+        Schema::create('user_roles', function (Blueprint $table) {
+            $table->id();
+            $table->integer('role_id');
+            $table->integer('user_id');
+            $table->timestamps();
         });
     }
 
@@ -28,8 +28,6 @@ class AddRolesFieldToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('roles');
-        });
+        Schema::dropIfExists('user_roles');
     }
 }

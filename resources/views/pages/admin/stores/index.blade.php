@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    User
+  Store
 @endsection
 
 
@@ -13,9 +13,9 @@
 >
     <div class="container-fluid">
         <div class="dashboard-heading">
-            <h2 class="dashboard-title"> user</h2>
+            <h2 class="dashboard-title"> Store</h2>
             <p class="dashboard-subtitle">
-              List of user
+              List of Store
             </p>
         </div>
         <div class="dashboard-content">
@@ -30,11 +30,11 @@
                                 <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
                                     <thead>
                                         <tr>
-                                            <td>Id</td>
-                                            <td>Nama</td>
-                                            <td>Email</td>
-                                          
-                                            <td>Aksi</td>
+                                            <th>Id</th>
+                                            <th>Nama</th>
+                                            <th>Kategori</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,7 +51,6 @@
     
 
 @endsection
-
 @push('addon-script')
 
 <script>
@@ -64,8 +63,9 @@
         },
         columns:[
             {data:'id',name:'id'},
-            {data:'name',name:'name'},
-            {data:'email',name:'email'},
+            {data:'store_name',name:'store_name'},
+            {data:'categories_id',name:'categories_id'},
+            {data:'store_status',name:'store_status'},
             {
                 data:'action',
                 name:'action',

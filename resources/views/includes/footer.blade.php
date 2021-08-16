@@ -61,12 +61,22 @@
                     <li class="my-2"></li>
                   </ul>
               </div> -->
+              
 
-              @php
+               @php
+                    // use App\Models\User;
+                    // $admin = User::where('roles','ADMIN')->get();
                     use App\Models\User;
-                    $admin = User::where('roles','ADMIN')->get();
-                  
+                    use App\Models\User_roles;
+                    $admin = User_roles::with([ 'user'])->whereHas('role', function($q){
+                          $q->where('name', 'ADMIN');
+                      })->get();
+
               @endphp
+
+            
+
+
               <div class="col-md-3 mx-auto mb-2">
                 <h6 class="text-uppercase font-weight-bold">Contact Us</h6>
                   <hr class="bg-success mb-2 mt-0 d-inline-block mx-auto" style="width: 125px; height: 2px;">
@@ -75,7 +85,7 @@
                     <li class="my-2"><i class="fas fa-envelope mr-2"></i>farmersmarketplace@gmail.com</li>
                     <li class="my-2"><i class="fas fa-fax mr-2"></i>+(623) 87535</li>
                     @forelse ($admin as $item)
-                    <li class="my-2"><i class="fas fa-phone mr-2"></i>Admin(<a href="https://wa.me/{{ $item->phone_number }}?text=Halo%2C%20Admin!%0ASaya%20mau%20bertanya%20mengenai%20farmers%20Marketplace%20Indonesia" style="text-decorations:none; color:inherit;"> Hubungi Via <i class="fab fa-whatsapp"></i></a> )</li>
+                    <li class="my-2"><i class="fas fa-phone mr-2"></i>Admin(<a href="https://wa.me/{{ $item->phone_number }}?text=Halo%2C%20Admin!%0ASaya%20mau%20bertanya%20mengenai%20farmers%20Marketplace%20Indonesia" style="text-decorations:none; color:inherit;" target="_blank"> Hubungi Via <i class="fab fa-whatsapp"></i></a> )</li>
                     @empty
                     <li class="my-2"><i class="fas fa-phone mr-2"></i>Hubungi Admin</li>
                     <li class="my-2"><i class="fab fa-whatsapp mr-2"></i> Call Center</li>

@@ -16,18 +16,18 @@ class LocationsTableSeeder extends Seeder
      */
     public function run()
     {
-         $daftarProvinsi = RajaOngkir::provinsi()->all();
-        foreach ($daftarProvinsi as $provinceRow) {
+        $daftarProvinsi = RajaOngkir::provinsi()->all();
+        foreach($daftarProvinsi as $provinceRow) {
             Province::create([
                 'province_id' => $provinceRow['province_id'],
-                'name'        => $provinceRow['province'],
+                'title' => $provinceRow['province']
             ]);
             $daftarKota = RajaOngkir::kota()->dariProvinsi($provinceRow['province_id'])->get();
-            foreach ($daftarKota as $cityRow) {
+            foreach($daftarKota as $cityRow) {
                 City::create([
-                    'province_id'   => $provinceRow['province_id'],
-                    'city_id'       => $cityRow['city_id'],
-                    'name'          => $cityRow['city_name'],
+                    'province_id' => $provinceRow['province_id'],
+                    'city_id' => $cityRow['city_id'],
+                    'title' => $cityRow['city_name'],
                 ]);
             }
         }

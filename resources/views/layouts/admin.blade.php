@@ -85,6 +85,12 @@
                             Blog
                         </a>
                         <a
+                            href="{{  route('store.index') }}"
+                            class="list-group-item list-group-item-action {{(request()->is('admin/store*'))? 'active':'' }}"
+                        >
+                            Store
+                        </a>
+                        <a
                             href="{{ route('home') }}"
                             class="list-group-item list-group-item-action"
                         >

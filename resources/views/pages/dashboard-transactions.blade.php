@@ -25,7 +25,14 @@
             id="pills-tab"
             role="tablist"
           >
-            <li class="nav-item" role="presentation">
+          
+            @php
+            use App\Models\Store;
+                 $store=Store::where('user_id',Auth::user()->id )->first();
+
+            @endphp
+            @if ($store != null)
+                <li class="nav-item" role="presentation">
               <a
                 class="nav-link active"
                 id="pills-home-tab"
@@ -37,9 +44,12 @@
                 >Riwayat Penjualan (Sell)</a
               >
             </li>
+            @endif
+            
+
             <li class="nav-item" role="presentation">
               <a
-                class="nav-link"
+                class="nav-link "
                 id="pills-profile-tab"
                 data-toggle="pill"
                 href="#pills-profile"
@@ -51,70 +61,71 @@
             </li>
           </ul>
           <div class="tab-content" id="pills-tabContent">
-            <div
-              class="tab-pane fade show active"
-              id="pills-home"
-              role="tabpanel"
-              aria-labelledby="pills-home-tab"
-            >
-             <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-2">
-                    Produk
-                </div>
-                 <div class="col-md-2">
-                    Kode transaksi
-                </div>
-                <div class="col-md-2">
-                    Customer
-                </div>
-                <div class="col-md-2">
-                    Pembayaran
-                </div>
-                <div class="col-md-2">
-                Tanggal Transaksi
-                </div>
-            </div>
-              @foreach ($sellTransactions as $transaction)
-                  <a
-                    href="{{ route('dashboard-transaction-details', $transaction->id) }}"
-                    class="card card-list d-block"
+              @if ($store != null)
+                <div
+                  class="tab-pane fade show active"
+                  id="pills-home"
+                  role="tabpanel"
+                  aria-labelledby="pills-home-tab"
                   >
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-1">
-                          <img
-                            src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}"
-                            class="w-50"
-                          />
-                        </div>
-                        <div class="col-md-2">
-                          {{ $transaction->product->name }}
-                        </div>
-                        <div class="col-md-2">
-                          {{ $transaction->transaction->code }}
-                        </div>
-                        <div class="col-md-2">
-                          {{ $transaction->transaction->user->name }}
-                        </div>
-                        <div class="col-md-2">
-                          {{ $transaction->transaction->transaction_status}}
-                        </div>
-                        <div class="col-md-2">
-                          {{ $transaction->created_at }}
-                        </div>
-                        <div class="col-md-1 d-none d-md-block">
-                          <img
-                            src="/images/dashboard/panah.png"
-                            alt=""
-                          />
-                        </div>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        Produk
                     </div>
-                  </a>
-              @endforeach
-            </div>
+                    <div class="col-md-2">
+                        Kode transaksi
+                    </div>
+                    <div class="col-md-2">
+                        Customer
+                    </div>
+                    <div class="col-md-2">
+                        Pembayaran
+                    </div>
+                    <div class="col-md-2">
+                      Tanggal Transaksi
+                    </div>
+                  </div>
+                    @foreach ($sellTransactions as $transaction)
+                        <a
+                          href="{{ route('dashboard-transaction-details', $transaction->id) }}"
+                          class="card card-list d-block"
+                        >
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-1">
+                                <img
+                                  src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}"
+                                  class="w-50"
+                                />
+                              </div>
+                              <div class="col-md-2">
+                                {{ $transaction->product->name }}
+                              </div>
+                              <div class="col-md-2">
+                                {{ $transaction->transaction->code }}
+                              </div>
+                              <div class="col-md-2">
+                                {{ $transaction->transaction->user->name }}
+                              </div>
+                              <div class="col-md-2">
+                                {{ $transaction->transaction->transaction_status}}
+                              </div>
+                              <div class="col-md-2">
+                                {{ $transaction->created_at }}
+                              </div>
+                              <div class="col-md-1 d-none d-md-block">
+                                <img
+                                  src="/images/dashboard/panah.png"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    @endforeach
+                </div>
+              @endif
             <div
               class="tab-pane fade"
               id="pills-profile"
@@ -157,7 +168,7 @@
                           {{ $transaction->transaction->code }}
                         </div>
                         <div class="col-md-3">
-                          {{ $transaction->product->user->store_name }}
+                          {{ $transaction->product->user->store->store_name }}
                         </div>
                         <div class="col-md-3">
                           {{ $transaction->created_at }}
