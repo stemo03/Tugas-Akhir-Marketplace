@@ -43,10 +43,6 @@ Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])-
 
 
 
-
-
-
-
 Route::group(['middleware' => ['auth','verified']], function () {
     Route::get('/successRegister', [ App\Http\Controllers\Auth\RegisterController::class, 'success'])
     ->name('register-success');
@@ -93,6 +89,9 @@ Route::group(['middleware' => ['auth','verified']], function () {
     Route::post('/dashboard/update/{redirect}', [App\Http\Controllers\DashboardSettingController::class, 'update'])
         ->name('dashboard-settings-redirect');
 
+    Route::post('/dashboard/update-store/{redirect}', [App\Http\Controllers\DashboardSettingController::class, 'perbarui'])
+        ->name('dashboard-settings-store-redirect');
+
     Route::get('/print', [App\Http\Controllers\DashboardController::class, 'print'])->name('print');
     Route::get('/shop/{id}', [App\Http\Controllers\DetailController::class, 'shop'])->name('shop');
 
@@ -100,8 +99,20 @@ Route::group(['middleware' => ['auth','verified']], function () {
 
     Route::post('/cart-dec/{id}', [App\Http\Controllers\CartController::class,'decrement'])
         ->name('dec');
-Route::post('/cart-in/{id}', [App\Http\Controllers\CartController::class,'increment'])
+    Route::post('/cart-in/{id}', [App\Http\Controllers\CartController::class,'increment'])
         ->name('in');
+
+    Route::get('/province/{id}/cities', [App\Http\Controllers\API\LocationController::class, 'getCities']);
+    
+    Route::post('/ongkir', [App\Http\Controllers\CartController::class, 'cekongkir'])->name('cek-ongkir');
+
+    Route::get('/ongkir', [App\Http\Controllers\CartController::class, 'selectedongkir'])->name('select-ongkir');
+
+    Route::get('/dashboard/create-store', [App\Http\Controllers\DashboardController::class, 'create'])->name('create_store');
+
+    Route::post('/dashboard/store', [App\Http\Controllers\DashboardController::class, 'store'])->name('dashboard-store');
+    
+
 });
 
 
@@ -119,6 +130,8 @@ Route::prefix('admin')
     Route::resource('product-gallery','\App\Http\Controllers\Admin\ProductGalleryController'); 
     Route::resource('transaction', '\App\Http\Controllers\Admin\TransactionController');
     Route::resource('print', '\App\Http\Controllers\Admin\PrintController');
+    Route::resource('store', '\App\Http\Controllers\Admin\StoreController');
+    Route::post('/kirim/{code}', [App\Http\Controllers\Admin\DashboardController::class, 'email'])->name('kirim');
 });
 Auth::routes();
 

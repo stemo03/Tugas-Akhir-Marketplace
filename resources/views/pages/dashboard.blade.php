@@ -58,7 +58,16 @@ data-aos="fade-up"
     </div>
     <div class="row">
         <div class="col-md-12 float-lg-right" >
-            <a href="{{ route('print') }}" class="btn btn-primary" target="_blank" ><i class="fas fa-print"></i> Cetak </a>
+            @php
+                use App\Models\User_roles;
+                use App\Models\Store;
+                $user = User_roles::select('role_id')->where('user_id', Auth::user()->id)->whereIn('role_id', [1, 2, 3])->get();
+                $store = Store::where('user_id', Auth::user()->id)->first();
+
+            @endphp
+            @if($user && $store != null)
+                <a href="{{ route('print') }}" class="btn btn-primary" target="_blank" ><i class="fas fa-print"></i> Cetak </a>
+            @endif
         </div>
         
     </div>

@@ -20,9 +20,11 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::take(6)->get();
-        $products = Product::with(['galleries'])->whereHas('user', function($user){
-                                $user->where('store_status',1 );
-                            })->take(8)->latest()->get();
+        $products = Product::with(['galleries','user'])->whereHas('user.store', function($query){
+                                    $query->where('store_status',1);
+                                })->take(8)->latest()->paginate(32);
+
+// dd($products);
         $blog = Blog::take(6)->get();
         // $admin = User::where('roles','ADMIN')->get();
         return view('pages.home',[
@@ -33,6 +35,10 @@ class HomeController extends Controller
         ]);
         
     }
+
+    // $products = Product::with(['galleries','user'])->whereHas('user.store', function($query){
+    //                                 $query->where('store_status',1 );
+    //                             })->take(8)->latest()->paginate(32);
      
 
 }

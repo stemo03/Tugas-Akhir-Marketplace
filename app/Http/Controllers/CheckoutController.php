@@ -30,7 +30,7 @@ class CheckoutController extends Controller
             'users_id' => Auth::user()->id,
             'insurance_price' => $request->insurance,
             'shippinng_price' => $request->shipping,
-            'total_price' => $request->total,
+            'total_price' =>(int) $request->input("totalbayar"),
             'transaction_status' => 'PENDING',
             'code' => $code,
             'pay_url' =>''
@@ -71,7 +71,7 @@ class CheckoutController extends Controller
         $midtrans = array(
             'transaction_details' => array(
                 'order_id' =>  $code,
-                'gross_amount' => (int) $request->total,
+                'gross_amount' => (int) $request->input("totalbayar"),
             ),
             'customer_details' => array(
                 'first_name'    => Auth::user()->name,

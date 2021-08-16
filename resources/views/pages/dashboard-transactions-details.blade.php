@@ -40,7 +40,8 @@
                       <div class="product-title">Product Name</div>
                       <div class="product-subtitle">
                         {{ $transaction->product->name }}
-                        ({{  number_format($transaction->product->price )}})
+                        ({{  number_format($transaction->product->price )}}), 
+                        {{-- ({{  number_format($transaction->transaction->qty )}}) --}}
                       </div>
                     </div>
                     <div class="col-12 col-md-6">
@@ -67,10 +68,26 @@
                     </div>
                     <div class="col-12 col-md-6">
                       <div class="product-title">
+                        Ongkos Kirim
+                      </div>
+                      <div class="product-subtitle">
+                        Rp. {{ number_format($transaction->transaction->shippinng_price) }}
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="product-title">
                         Mobile
                       </div>
                       <div class="product-subtitle">
                         {{ $transaction->transaction->user->phone_number }}
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="product-title">
+                          Resi
+                      </div>
+                      <div class="product-subtitle">
+                        {{  $transaction->resi }}
                       </div>
                     </div>
                   </div>
@@ -99,13 +116,13 @@
                       <div class="col-12 col-md-6">
                         <div class="product-title">Provinsi</div>
                         <div class="product-subtitle">
-                          {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->name ??''}}
+                          {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->title ??''}}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
                         <div class="product-title">Kabupaten/ Kota</div>
                         <div class="product-subtitle">
-                          {{ App\Models\Regency::find($transaction->transaction->user->regencies_id)->name ??''}}
+                          {{ App\Models\City::find($transaction->transaction->user->regencies_id)->title ??''}}
                         </div>
                       </div>
                       <div class="col-12 col-md-6">
@@ -124,11 +141,17 @@
                           class="form-control"
                           v-model="status"
                         >
-                          <option value="PENDING">Pending</option>
-                          <option value="SHIPPING">Shipping</option>
-                          <option value="SUCCESS">Success</option>
+                          @if($transaction->product->users_id == Auth::user()->id)
+                            <option value="PENDING">Pending</option>
+                            <option value="SHIPPING">Shipping</option>
+                          @else
+                            @if($transaction->resi)
+                              <option value="SUCCESS">Success</option>
+                            @endif
+                          @endif
                         </select>
                       </div>
+                      @if($transaction->product->users_id == Auth::user()->id)
                       <template v-if="status == 'SHIPPING'">
                         <div class="col-md-3">
                           <div class="product-title">Input Resi</div>
@@ -148,12 +171,15 @@
                           </button>
                         </div>
                       </template>
+                      @endif
                     </div>
                   </div>
                 </div>
                 <div class="row mt-4">
                   <div class="col-12 text-right">
-                    <a href="{{ $transaction->transaction->pay_url}}"> Bayar Sekarang</a>
+                    @if($transaction->transaction->transaction_status == 'PENDING')
+                      <a href="{{ $transaction->transaction->pay_url}}"> Bayar Sekarang</a>
+                    @endif
                   </div>
                   <div class="col-12 text-right">
                     <button

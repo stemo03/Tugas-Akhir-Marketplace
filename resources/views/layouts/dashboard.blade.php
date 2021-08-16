@@ -40,6 +40,21 @@
             >
               Dashboard
             </a>
+            
+            <a
+              href="{{ route('dashboard-transaction') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions*')) ? 'active' : '' }} "
+            >
+              Transactions
+            </a>
+
+            @php
+            use App\Models\Store;
+                 $store=Store::where('user_id',Auth::user()->id )->first();
+
+            @endphp
+{{-- side bar store --}}
+            @if ($store != null)
             <a
               href="{{ route('dashboard-product') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/products*')) ? 'active' : '' }} "
@@ -47,17 +62,23 @@
               My Products
             </a>
             <a
-              href="{{ route('dashboard-transaction') }}"
-              class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions*')) ? 'active' : '' }} "
-            >
-              Transactions
-            </a>
-            <a
               href="{{ route('dashboard-settings-store') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/settings*')) ? 'active' : '' }} "
             >
               Store Settings
             </a>
+
+            @else
+                <a
+              href="{{ route('create_store') }}"
+              class="list-group-item list-group-item-action {{ (request()->is('dashboard/settings*')) ? 'active' : '' }} "
+            >
+              Buka Toko
+            </a>
+            @endif
+
+
+    {{--  END STORE--}}
             <a
               href="{{ route('dashboard-settings-account') }}"
               class="list-group-item list-group-item-action {{ (request()->is('dashboard/account*')) ? 'active' : '' }} "
@@ -177,18 +198,18 @@
 
     <!-- Bootstrap core JavaScript -->
     @stack('prepend-script')
-    <script src="/vendor/jquery/jquery.slim.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
-    <script>
-      $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-      });
-    </script>
+        <script src="/vendor/jquery/jquery.slim.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+        AOS.init();
+        </script>
+        <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        </script>
     @stack('addon-script')
   </body>
 </html>

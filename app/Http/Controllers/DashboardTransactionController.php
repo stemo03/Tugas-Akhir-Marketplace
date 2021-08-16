@@ -28,7 +28,7 @@ class DashboardTransactionController extends Controller
 
       public function details(Request $request, $id)
     {
-        $transaction = TransactionDetail::with(['transaction.user','product.galleries'])
+        $transaction = TransactionDetail::with(['transaction.user','product.galleries', 'product.user'])
                             ->findOrFail($id);
         return view('pages.dashboard-transactions-details',[
             'transaction' => $transaction

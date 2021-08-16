@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'roles', 'store_name', 'categories_id', 'store_status','address_one', 'address_two', 'provinces_id', 'regencies_id', 'zip_code', 'country', 'phone_number'
+        'name', 'email', 'password', 'address_one', 'address_two', 'provinces_id', 'regencies_id', 'zip_code', 'country', 'phone_number'
     ];
 
     /**
@@ -39,10 +39,19 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function province(){
+    public function province()
+    {
         return $this->belongsTo( Province::class,'provinces_id','id');
     }
-     public function regencies(){
-        return $this->belongsTo( Regency::class,'regencies_id','id');
+
+     public function regencies()
+    {
+        return $this->belongsTo( City::class,'regencies_id','city_id');
     }
+
+    public function store() {
+        return $this->hasOne(Store::class,'user_id','id');
+    }
+
+
 }

@@ -23,10 +23,5 @@ Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'c
     ->name('api-register-check');
 
 
-Route::get('provinces', [App\Http\Controllers\API\LocationController::class,'provinces'])
-    ->name('api-provinces');
-Route::get('regencies/{provinces_id}', [App\Http\Controllers\API\LocationController::class,'regencies'])
-    ->name('api-regencies');
-
 Route::post('/checkout/callback', [App\Http\Controllers\CheckoutController::class, 'callback'])
     ->name('midtrans-callback');

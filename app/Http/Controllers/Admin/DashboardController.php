@@ -7,6 +7,10 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Email;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -24,5 +28,17 @@ class DashboardController extends Controller
             'transaction'=>$transaction,
             'blog'=>$blog,
         ]);
+    }
+
+    public function email($code)
+    {
+
+
+        $transactiondetail = TransactionDetail::with(['transaction', 'product'])->where('code', $code)->first();
+
+        Mail::to($transactiondetail->product->user->email)->send(new Email($transactiondetail));
+
+
+        return redirect()->route('transaction.index');
     }
 }

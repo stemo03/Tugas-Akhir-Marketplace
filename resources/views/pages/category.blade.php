@@ -83,8 +83,8 @@
                           <div class="products-price">
                               Rp {{ number_format($product->price) }}
                           </div>
-                          <div class="products-price">
-                              {{$product->user->store_status }}
+                          <div>
+                             <p style="font-size:12px;">{{ $product->user->store->store_name ?? '' }} ({{ $product->user->regencies->title ?? '' }})</p>
                           </div>
                         </a>
                   </div>
@@ -98,11 +98,11 @@
                   </div>
               @endforelse
             </div>
-            <div class="row">
+            {{-- <div class="row">
               <div class="col-12 mt-4">
                   {{ $products->links() }}
               </div>
-          </div>
+          </div> --}}
           </div>
         </div>
       </section>

@@ -79,53 +79,40 @@ data-aos="fade-up"
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div
-                                        class="form-group"
-                                    >
-                                        <label for="provinces_id">Provinsi Saat ini</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="provinces_id"
-                                            name="provinces_id"
-                                            value="{{ $user->province->name ?? ''}}"
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div
-                                        class="form-group"
-                                    >
-                                        <label for="regencies_id">Kota Saat ini</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="regencies_id"
-                                            name="regencies_id"
-                                            value="{{ $user->regencies->name ?? ''}}"
-                                            disabled
-                                        />
-                                    </div>
-                                </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="provinces_id">Province</label>
-                                            <select name="provinces_id" id="provinces_id" class="form-control" v-model="provinces_id" v-if="provinces">
-                                             <option   option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
-                                            </select>
-                                             <select v-else class="form-control"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                    <label for="regencies_id">City</label>
-                                        <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
-                                            <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
+                                  <div class="form-group">
+                                    <label for="provinces_id">Provinsi</label>
+                                     @if(Auth::user()->provinces_id)
+                                        <select name="provinces_id" required class="form-control" id="province">
+                                            <option value="">{{ $user->province->title }}</option>
+                                            @foreach($provinces as $province => $value)
+                                            <option value="{{ $province }}">{{ $value}}</option>
+                                            @endforeach
                                         </select>
-                                        <select v-else class="form-control"></select>
-                                    </div>
+                                        @else
+                                        <select name="provinces_id" required class="form-control" id="province">
+                                            <option value="">Pilih Provinsi</option>
+                                            @foreach($provinces as $province => $value)
+                                            <option value="{{ $province }}">{{ $value}}</option>
+                                            @endforeach
+                                        </select>
+                                        @endif
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label for="regencies_id">Kota</label>
+                                    @if(Auth::user()->regencies_id)
+                                        <select name="regencies_id" required class="form-control" id="city">
+                                                <option value="">{{ $user->regencies->title }}</option>
+                                            </select>
+                                        @else
+                                        <select name="regencies_id" required class="form-control" id="city">
+                                            <option value="">Pilih kabupaten/kota</option>
+                                        </select>
+                                        @endif
+                                    
+                                  </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div
@@ -187,43 +174,31 @@ data-aos="fade-up"
 @endsection
 
 @push('addon-script')
-    <script src="/vendor/vue/vue.js"></script>
-    <script src="https://unpkg.com/vue-toasted"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-      var locations = new Vue({
-        el: "#locations",
-        mounted() {
-          this.getProvincesData();
-        },
-        data: {
-          provinces: null,
-          regencies: null,
-          provinces_id: null,
-          regencies_id: null,
-        },
-        methods: {
-          getProvincesData() {
-            var self = this;
-            axios.get('{{ route('api-provinces') }}')
-              .then(function (response) {
-                  self.provinces = response.data;
-              })
-          },
-          getRegenciesData() {
-            var self = this;
-            axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
-              .then(function (response) {
-                  self.regencies = response.data;
-              })
-          },
-        },
-        watch: {
-          provinces_id: function (val, oldVal) {
-            this.regencies_id = null;
-            this.getRegenciesData();
-          },
-        }
-      });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+<script>
+    $(document).ready(function() {
+        $('select[name="provinces_id"]').on('change', function(){
+            let provinceId = $(this).val();
+            if(provinceId) {
+                jQuery.ajax({
+                    url:'/province/'+provinceId+'/cities',
+                    type:"GET",
+                    dataType:"json",
+                    success:function(data){
+                        $('select[name="regencies_id"]').empty();
+                        $.each(data, function(key,value){
+                            $('select[name="regencies_id"]').append('<option value="'+key+'">' + value+ '</option>' );
+                        });
+                    }, 
+                });
+            }
+            else{
+                $('select[name="regencies_id"]').empty();
+            }
+        });
+    });
+</script>
 @endpush

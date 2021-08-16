@@ -24,9 +24,9 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-        'name' => 'required|string|unique:users|max:50',// disni kita bikin peraturan
-        'email' => 'required|email|unique:users',
-        'roles' => 'nullable|string|in:ADMIN,USER',
+        'name' => 'string|unique:users|max:50',// disni kita bikin peraturan
+        'email' => 'email|unique:users',
+        
         ];
     }
 }

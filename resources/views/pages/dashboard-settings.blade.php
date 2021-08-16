@@ -21,7 +21,7 @@
         <div class="dashboard-content">
             <div class="row">
                 <div class="col-12">
-                    <form action="{{ route('dashboard-settings-redirect','dashboard-settings-store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard-settings-store-redirect','dashboard-settings-store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-body">
@@ -30,14 +30,14 @@
                                         <div
                                             class="form-group">
                                             <label>Nama Toko</label>
-                                            <input type="text" class="form-control" name="store_name" value="{{ $user->store_name }}"/>
+                                            <input type="text" class="form-control" name="store_name" value="{{ $user->store->store_name }}"/>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class=" form-group">
                                             <label>Kategori</label >
                                             <select name="categories_id" class="form-control">
-                                            <option value="{{ $user->categories_id }}">Tidak diganti</option>
+                                            <option value="{{ $user->store->categories_id }}">{{ $user->store->category->name }} (Saat ini)</option>
                                             @foreach ($categories as $categories)
                                             <option value="{{ $categories->id }}">{{ $categories->name }}</option>
                                             @endforeach
@@ -58,7 +58,7 @@
                                                     name="store_status"
                                                     id="openStoreTrue"
                                                     value="1"
-                                                     {{ $user->store_status == 1 ? 'checked' : '' }}
+                                                     {{ $user->store->store_status == 1 ? 'checked' : '' }}
 
 
                                                 />
@@ -78,7 +78,7 @@
                                                     name="store_status"
                                                     id="openStoreFalse"
                                                     value="0"
-                                                        {{ $user->store_status == 0 || $user->store_status == NULL ? 'checked' : '' }}
+                                                        {{ $user->store->store_status == 0 || $user->store->store_status == NULL ? 'checked' : '' }}
                                                 />
                                                 <label
                                                     for="openStoreFalse"
@@ -86,6 +86,27 @@
                                                     >Sementara Tutup</label
                                                 >
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div
+                                            class="form-group">
+                                            <label>Lengkapi data toko anda!</label>
+                                            {{-- <input type="text" class="form-control" name="store_name" value="{{ $user->store->store_name }}"/> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div
+                                            class="form-group">
+                                            <label>Bank</label>
+                                            <input type="text" class="form-control" name="bank" value="{{ $user->store->bank ?? '' }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div
+                                            class="form-group">
+                                            <label>Nomor Rekening</label>
+                                            <input type="text" class="form-control" name="no_rek" value="{{ $user->store->no_rek ?? '' }}"/>
                                         </div>
                                     </div>
                                 </div>

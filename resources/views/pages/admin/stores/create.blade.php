@@ -1,6 +1,7 @@
-@extends('layouts.admin')
+                                                                                        @extends('layouts.admin')
+
 @section('title')
-    User
+    Kategori
 @endsection
 
 
@@ -12,9 +13,9 @@
 >
     <div class="container-fluid">
         <div class="dashboard-heading">
-            <h2 class="dashboard-title"> Edit user</h2>
+            <h2 class="dashboard-title"> kategori</h2>
             <p class="dashboard-subtitle">
-              Edit user 
+              Buat kategori baru
             </p>
         </div>
         <div class="dashboard-content">
@@ -31,41 +32,21 @@
                     @endif
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('user.update', $item->id) }}" method="post" enctype="multipart/form-data">
-                                @method('PUT') {{--  --}}
+                            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                          <label for="">Nama User</label>
-                                          <input type="text" name="name" id="" class="form-control" value="{{ $item->name }}" disabled>
+                                          <label for="">Nama Kategori</label>
+                                          <input type="text" name="name" id="" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                          <label for="">Email User</label>
-                                          <input type="email" name="email" id="" class="form-control" value="{{ $item->email }}" disabled>
-                                          
+                                          <label for="">Foto</label>
+                                          <input type="file" name="photo" id="" class="form-control" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                          <label for="">Password User</label>
-                                          <input type="password" name="password" id="" class="form-control">
-                                          <small>Kosongkan jika tidak ingin mengganti password</small>
-                                        </div>
-                                    </div>
-                                    {{-- <div class="col-md-12">
-                                        <div class="form-group">
-                                          <label for="">Roles</label>
-                                          <select name="roles" id="" required class="form-control">
-                                              <option value="{{ $item->roles }}" selected>{{ $item->roles }}</option>
-                                              <option value="ADMIN">Admin</option>
-                                              <option value="USER">User</option>
-                                          </select>
-                                        </div>
-                                    </div> --}}
-                                     
                                 </div>
                                 <div class="row">
                                     <div class="col text-right">
